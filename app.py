@@ -44,7 +44,14 @@ computers = [
     },
 
 ]
+computer_details = [
+    {
+        'Networking Details':'',
+        'username': 'Administrator',
+        'passoword': 'test@123'
+    },
 
+]
 
 @app.route("/")
 def index():
