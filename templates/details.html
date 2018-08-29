@@ -118,8 +118,9 @@
                                                     {{ k['drive_name'] }}
                                                 </a>
                                             </div>
-                                            {% for i in k %}
-                                                <div id="collapseThreeOne" class="collapse" data-parent="#accordion1">
+
+                                            <div id="collapseThreeOne" class="collapse" data-parent="#accordion1">
+                                                {% for i in k %}
                                                     <div class="card-body">
                                                         <div class="row">
                                                             <div class="col-sm-4"
@@ -128,9 +129,9 @@
                                                                  style="text-align:justify-all;font-size: large; background-color: #e3e3e3">{{ k[i] }}</div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                {% endfor %}
+                                            </div>
 
-                                            {% endfor %}
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -140,39 +141,45 @@
                     <div class="card">
                         <div class="card-header">
                             <a class="collapsed card-link" data-toggle="collapse" href="#collapseFour">
-                                Memory and RAM details
+                                RAM details
                             </a>
                         </div>
                         <div id="collapseFour" class="collapse" data-parent="#accordion">
                             <div class="card-body">
-                                <ul class="list-group">
-                                    <li class="list-group-item">First item</li>
-                                    <li class="list-group-item">Second item</li>
-                                    <li class="list-group-item">Third item</li>
-                                </ul>
+                                {% for k in memory_details %}
+                                    <div class="row">
+                                        <div class="col-sm-4"
+                                             style="background-color: #cbd5db;text-align:left;font-size: medium;">{{ k }}</div>
+                                        <div class="col-sm-8"
+                                             style="text-align:justify-all;font-size: large; background-color: #e3e3e3">{{ memory_details[k] }}</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="collapsed card-link" data-toggle="collapse" href="#collapseFive">
+                                Process Details
+                            </a>
+                        </div>
+                        <div id="collapseFive" class="collapse" data-parent="#accordion">
+                            <div class="card-body">
+                                {% for k in process_details %}
+                                    {% for i in k %}
+                                        <div class="row">
+                                            <div class="col-sm-4"
+                                                 style="background-color: #cbd5db;text-align:left;font-size: medium;">Process id :{{ i }}</div>
+                                            <div class="col-sm-8"
+                                                 style="text-align:justify-all;font-size: large; background-color: #e3e3e3">{{ k[i] }}</div>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                 </div>
                 </div>
-
-
-                <!--
-         -----------------------------------------------------------------------------------------
-                {% for computer in computers %}
-                    <article class="media content-section">
-                        <div class="media-body">
-                            <div class="article-metadata">
-                                <a class="mr-2" href="{{ url_for('details') }}">{{ computer.ipaddress }}</a>
-             --------------                   
-              <small class="text-muted">{{ computer.date_last_accessed }}</small>
-            ----------
-                            </div>
-                            <p class="article-content">{{ computer.processes }}</p>
-                        </div>
-                    </article>
-                {% endfor %}
-                ------------------------------------------------------------------------------->
             {% endblock content %}
     </div>
 
