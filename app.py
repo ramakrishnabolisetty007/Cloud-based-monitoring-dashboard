@@ -4,54 +4,22 @@ from flask import Flask, jsonify, render_template, flash, redirect, url_for, req
 from flask_debugtoolbar import DebugToolbarExtension
 from forms import LoginForm, RegistrationForm
 from webservice_helper_method import ip_status, disk_status, all_process_status, network_usage, system_status, \
-    memory_status, start_service_remote, service_status, stop_service
+    memory_status, start_service_remote, service_status, stop_service, agent_list
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 toolbar = DebugToolbarExtension(app)
-computers = [
-    {
-        'ipaddress': '10.200.144.252',
-        'username': 'Administrator',
-        'passoword': 'test@123'
-    },
-    {
-        'ipaddress': '10.200.144.5',
-        'username': 'Administrator',
-        'password': 'novell@123'
-    },
-    {
-        'ipaddress': '10.200.144.5',
-        'username': 'Administrator',
-        'password': 'novell@123'
-    },
-    {
-        'ipaddress': '10.200.144.5',
-        'username': 'Administrator',
-        'password': 'novell@123'
-    },
-    {
-        'ipaddress': '10.200.144.5',
-        'username': 'Administrator',
-        'password': 'novell@123'
-    },
-    {
-        'ipaddress': '10.200.144.5',
-        'username': 'Administrator',
-        'password': 'novell@123'
-    },
-
-]
 computer_details = [
     {
-        'Networking Details':'',
+        'Networking Details': '',
         'username': 'Administrator',
         'passoword': 'test@123'
     },
 
 ]
+
 
 @app.route("/")
 def index():
@@ -60,7 +28,7 @@ def index():
 
 @app.route("/home")
 def home():
-    return render_template('home.html', computers=computers)
+    return render_template('home.html', computers=agent_list.get_agents())
 
 
 @app.route("/about")
@@ -91,13 +59,14 @@ def login():
 
 @app.route("/details")
 def details():
-    return render_template('details.html', title='details')
+    return render_template('details.html', title='details', ip_details=get_ip_details(),
+                           system_details=get_system_details(), disk_details=get_disk_details())
 
 
 @app.route('/get_ip_details', methods=['GET'])
 def get_ip_details():
-    response = ip_status.get_ip()
-    return jsonify(response)
+    response_ip = ip_status.get_ip()
+    return response_ip
 
 
 @app.route('/get_memory_details', methods=['GET'])
@@ -115,7 +84,7 @@ def get_network_details():
 @app.route('/get_disk_details', methods=['GET'])
 def get_disk_details():
     response = disk_status.get_disk_usage()
-    return jsonify(response)
+    return response
 
 
 @app.route('/get_all_process_details', methods=['GET'])
@@ -127,7 +96,8 @@ def get_all_process_details():
 @app.route('/get_system_details', methods=['GET'])
 def get_system_details():
     response = system_status.system_status()
-    return jsonify(response)
+    print(type(response))
+    return response
 
 
 @app.route('/get_service_details', methods=['GET'])
@@ -171,7 +141,7 @@ def stop_service():
 @app.route('/rdp', methods=['GET', 'POST'])
 def rdp():
     os.system(
-        "py -2 D:\\Python_hands_on\\Hackfest\\webservice_helper_method\\my_rdp.py -u Administrator -p novell@123 10.200.144.5:3389")
+        "py -2 D:\\Python_hands_on\\RAR\\webservice_helper_method\\my_rdp.py -u Administrator -p novell@123 10.200.144.5:3389")
     return redirect(url_for('details'))
 
 

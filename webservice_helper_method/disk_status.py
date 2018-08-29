@@ -15,8 +15,8 @@ def get_disk_usage():
                   'disk_free_space': str(usage.free / 10 ** 9) + " GB",
                   'disk_usage_percent': str(usage.percent) + " %"
                   }
-        values.append({device['drive_name']:device})
+        # values.append({device['drive_name']: device})
+        values.append(device)
     return values
-
 
 # print(get_disk_usage())
