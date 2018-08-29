@@ -6,6 +6,8 @@ from forms import LoginForm, RegistrationForm
 from webservice_helper_method import ip_status, disk_status, all_process_status, network_usage, system_status, \
     memory_status, start_service_remote, service_status, stop_service, agent_list
 
+from threading import Thread
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -98,7 +100,6 @@ def get_all_process_details():
 @app.route('/get_system_details', methods=['GET'])
 def get_system_details():
     response = system_status.system_status()
-    print(type(response))
     return response
 
 
@@ -145,6 +146,12 @@ def rdp():
     os.system(
         "py -2 D:\\Python_hands_on\\RAR\\webservice_helper_method\\my_rdp.py -u Administrator -p novell@123 10.200.144.5:3389")
     return redirect(url_for('details'))
+
+
+@app.route('/kill_process', methods=['GET', 'POST'])
+def kill_process():
+    searchword = request.args.get('name', '')
+    print(searchword)
 
 
 if __name__ == '__main__':
