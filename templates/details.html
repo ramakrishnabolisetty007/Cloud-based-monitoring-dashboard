@@ -169,7 +169,52 @@
                                     {% for i in k %}
                                         <div class="row">
                                             <div class="col-sm-4"
-                                                 style="background-color: #cbd5db;text-align:left;font-size: medium;">Process id :{{ i }}</div>
+                                                 style="background-color: #cbd5db;text-align:left;font-size: medium;">
+                                                Process id :{{ i }}</div>
+                                            <div class="col-sm-8"
+                                                 style="text-align:justify-all;font-size: large; background-color: #e3e3e3">{{ k[i] }}</div>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="collapsed card-link" data-toggle="collapse" href="#collapseSix">
+                                Service Details
+                            </a>
+                        </div>
+                        <div id="collapseSix" class="collapse" data-parent="#accordion">
+                            <div class="card-body">
+                                {% for k in service_details %}
+                                    {% for i in k %}
+                                        <div class="row">
+                                            <div class="col-sm-4"
+                                                 style="background-color: #cbd5db;text-align:left;font-size: medium;">
+                                                Process id :{{ i }}</div>
+                                            <div class="col-sm-8"
+                                                 style="text-align:justify-all;font-size: large; background-color: #e3e3e3">{{ k[i] }}</div>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="collapsed card-link" data-toggle="collapse" href="#collapseSeven">
+                                Network Details
+                            </a>
+                        </div>
+                        <div id="collapseSeven" class="collapse" data-parent="#accordion">
+                            <div class="card-body">
+                                {% for k in network_details %}
+                                    {% for i in k %}
+                                        <div class="row">
+                                            <div class="col-sm-4"
+                                                 style="background-color: #cbd5db;text-align:left;font-size: medium;">
+                                                {{ i }}</div>
                                             <div class="col-sm-8"
                                                  style="text-align:justify-all;font-size: large; background-color: #e3e3e3">{{ k[i] }}</div>
                                         </div>

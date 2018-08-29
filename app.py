@@ -61,7 +61,8 @@ def login():
 def details():
     return render_template('details.html', title='details', ip_details=get_ip_details(),
                            system_details=get_system_details(), disk_details=get_disk_details(),
-                           memory_details=get_memory_details(), process_details=get_all_process_details())
+                           memory_details=get_memory_details(), process_details=get_all_process_details(),
+                           service_details=get_service_details(), network_details=get_network_details())
 
 
 @app.route('/get_ip_details', methods=['GET'])
@@ -79,7 +80,7 @@ def get_memory_details():
 @app.route('/get_network_details', methods=['GET'])
 def get_network_details():
     response = network_usage.get_network()
-    return jsonify(response)
+    return response
 
 
 @app.route('/get_disk_details', methods=['GET'])
@@ -104,7 +105,7 @@ def get_system_details():
 @app.route('/get_service_details', methods=['GET'])
 def get_service_details():
     response = service_status.service_list()
-    return jsonify(response)
+    return response
 
 
 @app.route('/start_service', methods=['POST'])
