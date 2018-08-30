@@ -1,5 +1,5 @@
 import os
-
+import subprocess
 from flask import Flask, jsonify, render_template, flash, redirect, url_for, request
 from flask_debugtoolbar import DebugToolbarExtension
 from forms import LoginForm, RegistrationForm
@@ -109,36 +109,34 @@ def get_service_details():
     return response
 
 
-@app.route('/start_service', methods=['POST'])
-def start_service():
-    data = {
-        'process_id': request.json['id'],
-        'process_name': request.json['name'],
-        'ip': request.json['ip'],
-        'username': request.json['username'],
-        'password': request.json['password']
-    }
-    if start_service_remote.start_process(data) == 0:
-        return "Success"
+@app.route('/start_service/<name>', methods=['GET', 'POST'])
+def start_service(name):
+    if subprocess.call(["net start " + name], shell=True):
+        flash('You have Successfully terminated Service  {} '.format(name), 'success')
+        return redirect(url_for('details'))
     else:
-        return "Failure"
+        flash('There is some problem in starting service {} '.format(name), 'error')
+        return redirect(url_for('details'))
 
 
-@app.route('/stop_service,', methods=['GET', 'POST'])
-def stop_service():
-    my_obj = []
-    data = {
-        'process_id': request.json['id'],
-        'process_name': request.json['name'],
-        'ip': request.json['ip'],
-        'username': request.json['username'],
-        'password': request.json['password']
-    }
-    my_obj.append(data)
-    if stop_service.start(my_obj) == 0:
-        return "Success"
+@app.route('/stop_service<name>', methods=['GET', 'POST'])
+def stop_service(name):
+    if subprocess.call(["net stop " + name], shell=True):
+        flash('You have Successfully terminated Service  {} '.format(name), 'success')
+        return redirect(url_for('details'))
     else:
-        return "Failure"
+        flash('There is some problem in terminating service {} '.format(name), 'error')
+        return redirect(url_for('details'))
+
+
+@app.route('/restart_service/<name>', methods=['GET', 'POST'])
+def restart_service(name):
+    if subprocess.call(["net restart " + name], shell=True):
+        flash('You have Successfully restart Service  {} '.format(name), 'success')
+        return redirect(url_for('details'))
+    else:
+        flash('There is some problem in restarting service {} '.format(name), 'error')
+        return redirect(url_for('details'))
 
 
 @app.route('/rdp', methods=['GET', 'POST'])
@@ -148,10 +146,14 @@ def rdp():
     return redirect(url_for('details'))
 
 
-@app.route('/kill_process', methods=['GET', 'POST'])
-def kill_process():
-    searchword = request.args.get('name', '')
-    print(searchword)
+@app.route('/kill_process/<process_name>', methods=['GET', 'POST'])
+def kill_process(process_name):
+    print(process_name)
+    if os.system(r"Taskkill /IM " + str(process_name) + " /F") == 0 or 128:
+        flash('You have Successfully terminated process name {} '.format(process_name), 'success')
+    else:
+        flash('You have not proper permission on process name  {}'.format(process_name), 'error')
+    return redirect(url_for('details'))
 
 
 if __name__ == '__main__':

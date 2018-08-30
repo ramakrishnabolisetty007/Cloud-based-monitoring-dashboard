@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+<!--suppress HtmlUnknownTarget -->
 <html>
 <head>
     <!-- Required meta tags -->
@@ -186,13 +187,13 @@
                                                 </div>
                                             </div>
                                         {% endfor %}
-                                        <div class="col-md-12" style="margin-top: 5px; margin-bottom: 3px;">
+                                        <div class="col-md-12">
                                             <div class="form-group">
                                                 <div class="form-group">
-                                                    <input type="submit" class="btn btn-outline-danger"
-                                                           value="Kill Process"
-                                                           name="{{ k['process_id'] }}"
-                                                           onclick="location.href = '/kill_process';">
+                                                    <a class="btn btn-outline-danger"
+                                                       href="{{ url_for('kill_process',process_name=k['process_name']) }}">
+                                                        Kill Process
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -232,15 +233,18 @@
                                         <div class="col-md-12" style="margin-top: 5px; margin-bottom: 3px;">
                                             <div class="form-group">
                                                 <div class="form-group">
-                                                    <input type="button" class="btn btn-outline-info"
-                                                           value="Start Service"
-                                                           onclick="">
-                                                    <input type="button" class="btn btn-outline-danger"
-                                                           value="Stop Service"
-                                                           onclick="">
-                                                    <input type="button" class="btn btn-warning"
-                                                           value="Restart Service"
-                                                           onclick="">
+                                                    <a class="btn btn-outline-info"
+                                                       href="{{ url_for('start_service',name=k['name']) }}">
+                                                        Start Service
+                                                    </a>
+                                                    <a class="btn btn-outline-danger"
+                                                       href="{{ url_for('stop_service',name=k['name']) }}">
+                                                        Stop Service
+                                                    </a>
+                                                    <a class="btn btn-outline-warning"
+                                                       href="{{ url_for('restart_service',name=k['name']) }}">
+                                                        Restart Service
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
