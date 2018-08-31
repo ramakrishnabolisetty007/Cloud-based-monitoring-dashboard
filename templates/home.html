@@ -16,6 +16,11 @@
     {% else %}
         <title>RAR</title>
     {% endif %}
+    <style type="text/css">
+        .card-body-override {
+            padding: 0.1rem 1rem 0.1rem 1rem;
+        }
+    </style>
 </head>
 <body>
 <header class="site-header">
@@ -42,7 +47,7 @@
 </header>
 <main role="main" class="container">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
@@ -53,52 +58,128 @@
                 {% endif %}
             {% endwith %}
             {% block content %}
-                {% for computer in computers %}
-                    <article class="media content-section">
-                        <div class="media-body">
-                            <div class="article-metadata">
-                                <a class="mr-2" href="{{ url_for('details') }}">{{ computer.ipaddress }}</a>
-                                <!--
-              <small class="text-muted">{{ computer.date_last_accessed }}</small>
-            -->
-                            </div>
-                            <h2><a class="article-title" href="#">{{ computer.os }}</a></h2>
-                            <p class="article-content">{{ computer.processes }}</p>
+
+
+
+                <form name="myform" action="{{ url_for('action') }}" method="post">
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="collapsed card-link" data-toggle="collapse" href="#collapseSeven">
+                                Devices
+                            </a>
+
+                            {#                            <label>#}
+                            {#                                <select style="margin-left: 2px" name="process">#}
+                            {#                                    <option>Choose a process to kill</option>#}
+                            {#                                    <option value="notepad.exe">notepad.exe</option>#}
+                            {#                                    <option value="notepad++.exe">notepad++.exe</option>#}
+                            {#                                    <option value="firefox.exe">firefox.exe</option>#}
+                            {#                                    <option value="vlc.exe">vlc.exe</option>#}
+                            {#                                </select>#}
+                            {#                            </label>#}
+
+                            <label style="margin-left: 20px">
+                                Kill process <input type="text" name="kill_process_exe_path"
+                                                    placeholder="Enter process name "/>
+                            </label>
+                            <label style="margin-left: 20px">
+                                Start process <input type="text" name="start_process_exe_path"
+                                                     placeholder="Program installation path "/>
+                            </label>
+                            <label style="margin-left: 20px">
+                                Manage Services <input type="text" name="manage_service"
+                                                       placeholder="service name "/>
+                            </label>
+                            <input style="margin-left: 2px" type="submit"/>
                         </div>
-                    </article>
-                {% endfor %}
+
+                        <div id="collapseSeven" class="collapse show" data-parent="#accordion">
+                            <div class="card-body">
+
+
+                                <div class="card-body card-body-override">
+                                    <div class="row">
+                                        <div class="col-sm-1"
+                                             style="background-color: #5f788a;text-align:left;font-size: medium; font-weight: bold">
+                                            <input type="checkbox" id="checker">
+                                        </div>
+                                        <div class="col-sm-4"
+                                             style="background-color: #5f788a;text-align:left;font-size: medium; font-weight: bold">
+                                            IP
+                                        </div>
+                                        <div class="col-sm-3"
+                                             style="text-align:justify-all;font-size: large; background-color: #5f788a; font-weight: bold">
+                                            OS
+                                        </div>
+                                        <div class="col-sm-4"
+                                             style="text-align:justify-all;font-size: large; background-color: #5f788a; font-weight: bold">
+                                            GUID
+                                        </div>
+                                    </div>
+                                    {% for k in computers %}
+
+                                        <div class="row">
+                                            <div class="col-sm-1" style="background-color: #cbd5db;"><input
+                                                    type="checkbox" name="check_list" value="{{ k.ipaddress }}"
+                                            />
+                                            </div>
+                                            <div class="col-sm-4"
+                                                 style="background-color: #cbd5db;text-align:left;font-size: medium;">
+                                                <a href="
+                                                        {{ url_for('details', ip = k.ipaddress , guid = k.guid, username = "Administrator", password = "novell@123", port = 3389) }}">{{ k.ipaddress }}</a>
+
+                                            </div>
+                                            <div class="col-sm-3"
+                                                 style="text-align:justify-all;font-size: large; background-color: #e3e3e3">{{ k.os }}</div>
+                                            <div class="col-sm-4"
+                                                 style="text-align:justify-all;font-size: large; background-color: #e3e3e3">{{ k.guid }}</div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+
+
+
+
             {% endblock content %}
         </div>
-        <div class="col-md-4">
-            <div class="content-section">
-                <legend class="border-bottom mb-4">Servers / Clients</legend>
-                <ul class="list-group">
-                    <p class='text-muted'>You can filter out the type of machines you would like to monitor here.
-
-                    <li class="list-group-item list-group-item-light">Servers</li>
-                    <li class="list-group-item list-group-item-light">Clients</li>
-
-                </ul>
-                </p>
-            </div>
-            <div class="form-group">
-                <legend class="border-bottom mb-4">Search by ip address</legend>
-                <div class="form-group">
-                    <form action="#">
-                        <input type="text" placeholder="Search.." name="search" class="form-control-lg">
-                        <button type="submit" style="margin:10px;" class="btn btn-outline-info">Search</button>
-                    </form>
-                </div>
-            </div>
-            </li>
-            </ul>
-        </div>
+        {#        <div class="col-md-4">#}
+        {#            <div class="content-section">#}
+        {#                <legend class="border-bottom mb-4">Servers / Clients</legend>#}
+        {#                <ul class="list-group">#}
+        {#                    <p class='text-muted'>You can filter out the type of machines you would like to monitor here.#}
+        {##}
+        {#                    <li class="list-group-item list-group-item-light">Servers</li>#}
+        {#                    <li class="list-group-item list-group-item-light">Clients</li>#}
+        {##}
+        {#                </ul>#}
+        {#                </p>#}
+        {#            </div>#}
+        {#            <div class="form-group">#}
+        {#                <legend class="border-bottom mb-4">Search by ip address</legend>#}
+        {#                <div class="form-group">#}
+        {#                    <form action="#">#}
+        {#                        <input type="text" placeholder="Search.." name="search" class="form-control-lg">#}
+        {#                        <button type="submit" style="margin:10px;" class="btn btn-outline-info">Search</button>#}
+        {#                    </form>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#            </li>#}
+        {#            </ul>#}
+        {#        </div>#}
     </div>
 </main>
 
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
@@ -108,5 +189,41 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+<script>
+    $("#checker").bind("click", function () {
+        var toggleState = !!jQuery.data(this, "togglestate");
+
+        $(document.myform.check_list).each(function () {
+            this.checked = !toggleState;
+        });
+
+
+        $(this).text(toggleState ? "Check All" : "UnCheck All");
+        jQuery.data(this, "togglestate", !toggleState);
+    });
+
+    $(document.myform).delegate("input[name=check_list]", "change", function () {
+        var curState, prevState, fullStateChange = true;
+        $(document.myform.check_list).each(function () {
+            curState = this.checked;
+
+            if (prevState != null && prevState !== curState) {
+                fullStateChange = false;
+            }
+
+            prevState = curState;
+        });
+
+        if (!fullStateChange) {
+            return;
+        }
+
+        $("#checker").data("togglestate", curState).text(!curState ? "Check All" : "UnCheck All");
+
+
+    });
+
+    $(document.myform.check_list).trigger("change");
+</script>
 </body>
 </html>

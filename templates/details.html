@@ -286,21 +286,32 @@
                             </div>
                         </div>
                     </div>
+                    {#                    this is for remote desktop#}
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="collapsed card-link" data-toggle="collapse" href="#collapseEight">
+                                Remote Desktop
+                            </a>
+                        </div>
+                        <div id="collapseEight" class="collapse" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="form-group" style="margin-top: 10px">
+                                    <a class="btn btn-outline-info"
+                                       href="{{ url_for('rdp',ip = ip , username = username , password = password, port = port) }}">
+                                        Remote Desktop
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                </div>
+                <div class="col-md-12">
+
                 </div>
             {% endblock content %}
     </div>
 
-
-    <div class="col-md-12">
-        <div class="form-group">
-            <legend class="border-bottom mb-4">Remote access this machine</legend>
-            <div class="form-group">
-                <input type="button" class="btn btn-outline-info" value="Access now"
-                       onclick="location.href = '/rdp';">
-            </div>
-        </div>
-    </div>
 
 </main>
 

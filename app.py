@@ -4,7 +4,7 @@ from flask import Flask, jsonify, render_template, flash, redirect, url_for, req
 from flask_debugtoolbar import DebugToolbarExtension
 from forms import LoginForm, RegistrationForm
 from webservice_helper_method import ip_status, disk_status, all_process_status, network_usage, system_status, \
-    memory_status, start_service_remote, service_status, stop_service, agent_list
+    memory_status, service_status, agent_list
 
 from threading import Thread
 
@@ -59,9 +59,17 @@ def login():
     return render_template('login.html', title='Login', form=form)
 
 
-@app.route("/details")
-def details():
-    return render_template('details.html', title='details', ip_details=get_ip_details(),
+@app.route("/details/<ip>/<guid>/<username>/<password>/<port>")
+def details(ip, guid, username, password, port):
+    # print(ip)
+    # print(guid)
+    # print(username)
+    # print(password)
+    # print(port)
+
+    return render_template('details.html', username=username, password=password, port=port,
+                           ip=ip, guid=guid,
+                           title='details', ip_details=get_ip_details(),
                            system_details=get_system_details(), disk_details=get_disk_details(),
                            memory_details=get_memory_details(), process_details=get_all_process_details(),
                            service_details=get_service_details(), network_details=get_network_details())
@@ -139,11 +147,11 @@ def restart_service(name):
         return redirect(url_for('details'))
 
 
-@app.route('/rdp', methods=['GET', 'POST'])
-def rdp():
+@app.route('/rdp/<ip>/<username>/<password>/<port>', methods=['GET', 'POST'])
+def rdp(ip, username, password, port):
     os.system(
-        "py -2 D:\\Python_hands_on\\RAR\\webservice_helper_method\\my_rdp.py -u Administrator -p novell@123 10.200.144.5:3389")
-    return redirect(url_for('details'))
+        "py -2 D:\Python_hands_on\RAR\webservice_helper_method\my_rdp.py -u " + username + " -p " + password + " " + ip + ":" + port)
+    return redirect(url_for('home'))
 
 
 @app.route('/kill_process/<process_name>', methods=['GET', 'POST'])
@@ -154,6 +162,57 @@ def kill_process(process_name):
     else:
         flash('You have not proper permission on process name  {}'.format(process_name), 'error')
     return redirect(url_for('details'))
+
+
+@app.route('/action', methods=['GET', 'POST'])
+def action():
+    obj1 = request.form.to_dict(flat=False)
+    kill_process_name = obj1['kill_process_exe_path']
+    start_process_name = obj1['start_process_exe_path']
+    manage_services = obj1['manage_service']
+    print(kill_process_name)
+    print(start_process_name)
+    print(manage_services)
+    if len(kill_process_name) == 1:
+        for process_name in kill_process_name:
+            if process_name:
+                r, e = subprocess.Popen(process_name, shell=True, stdout=subprocess.PIPE,
+                                        stderr=subprocess.PIPE).communicate()
+                result = r.decode('utf-8')
+                error = e.decode('utf-8')
+                if not error:
+                    flash('{}'.format(result), 'success')
+                else:
+                    flash('{}'.format(error), 'error')
+    if len(start_process_name) == 1:
+        for process_name in start_process_name:
+            if process_name:
+                if r"\\" in process_name:
+                    new = '"' + process_name + '"'
+                else:
+                    new = process_name
+                print(new)
+                r, e = subprocess.Popen(new, stdout=subprocess.PIPE,
+                                        stderr=subprocess.PIPE).communicate()
+                result = r.decode('utf-8')
+                error = e.decode('utf-8')
+                if not error:
+                    flash('{}'.format(result), 'success')
+                else:
+                    flash('{}'.format(error), 'error')
+
+    if len(manage_services) == 1:
+        for manage in manage_services:
+            if manage:
+                r, e = subprocess.Popen(manage, shell=True, stdout=subprocess.PIPE,
+                                        stderr=subprocess.PIPE).communicate()
+                result = r.decode('utf-8')
+                error = e.decode('utf-8')
+                if not error:
+                    flash('{}'.format(result), 'success')
+                else:
+                    flash('{}'.format(error), 'error')
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':

@@ -2,11 +2,92 @@
   {
     "ipaddress": "10.200.144.252",
     "username": "Administrator",
-    "password": "test@123"
+    "password": "test@123",
+    "os": "Win 7",
+    "guid": "1234567890"
   },
   {
-    "ipaddress": "10.200.144.252",
+    "ipaddress": "10.200.144.5",
     "username": "Administrator",
-    "password": "test@123"
+    "password": "test@123",
+    "os": "Win 8",
+    "guid": "1234567890"
+  },
+  {
+    "ipaddress": "10.200.144.29",
+    "username": "Administrator",
+    "password": "test@123",
+    "os": "Win 8",
+    "guid": "1234567890"
+  },
+  {
+    "ipaddress": "10.200.144.21",
+    "username": "Administrator",
+    "password": "test@123",
+    "os": "Win 8",
+    "guid": "1234567890"
+  },
+  {
+    "ipaddress": "10.200.144.28",
+    "username": "Administrator",
+    "password": "test@123",
+    "os": "Win 8",
+    "guid": "1234567890"
+  },
+  {
+    "ipaddress": "10.200.144.27",
+    "username": "Administrator",
+    "password": "test@123",
+    "os": "Win 8",
+    "guid": "1234567890"
+  },
+  {
+    "ipaddress": "10.200.144.26",
+    "username": "Administrator",
+    "password": "test@123",
+    "os": "Win 8",
+    "guid": "1234567890"
+  },
+  {
+    "ipaddress": "10.200.144.21",
+    "username": "Administrator",
+    "password": "test@123",
+    "os": "Win 8",
+    "guid": "1234567890"
+  },
+  {
+    "ipaddress": "10.200.144.21",
+    "username": "Administrator",
+    "password": "test@123",
+    "os": "Win 8",
+    "guid": "1234567890"
+  },
+  {
+    "ipaddress": "10.200.144.22",
+    "username": "Administrator",
+    "password": "test@123",
+    "os": "Win 8",
+    "guid": "1234567890"
+  },
+  {
+    "ipaddress": "10.200.144.23",
+    "username": "Administrator",
+    "password": "test@123",
+    "os": "Win 8",
+    "guid": "1234567890"
+  },
+  {
+    "ipaddress": "10.200.144.24",
+    "username": "Administrator",
+    "password": "test@123",
+    "os": "Win 8",
+    "guid": "1234567890"
+  },
+  {
+    "ipaddress": "10.200.144.25",
+    "username": "Administrator",
+    "password": "test@123",
+    "os": "Win 8",
+    "guid": "1234567890"
   }
 ]
