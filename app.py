@@ -117,34 +117,34 @@ def get_service_details():
     return response
 
 
-@app.route('/start_service/<name>', methods=['GET', 'POST'])
-def start_service(name):
+@app.route('/start_service/<name>/<ip>/<guid>/<username>/<password>/<port>', methods=['GET', 'POST'])
+def start_service(name, ip, guid, username, password, port):
     if subprocess.call(["net start " + name], shell=True):
-        flash('You have Successfully terminated Service  {} '.format(name), 'success')
-        return redirect(url_for('details'))
+        flash('You have Successfully Started Service  {} '.format(name), 'success')
+        return redirect(url_for('details', ip=ip, guid=guid, username=username, password=password, port=port))
     else:
         flash('There is some problem in starting service {} '.format(name), 'error')
-        return redirect(url_for('details'))
+        return redirect(url_for('details', ip=ip, guid=guid, username=username, password=password, port=port))
 
 
-@app.route('/stop_service<name>', methods=['GET', 'POST'])
-def stop_service(name):
+@app.route('/stop_service<name>/<ip>/<guid>/<username>/<password>/<port>', methods=['GET', 'POST'])
+def stop_service(name, ip, guid, username, password, port):
     if subprocess.call(["net stop " + name], shell=True):
         flash('You have Successfully terminated Service  {} '.format(name), 'success')
-        return redirect(url_for('details'))
+        return redirect(url_for('details', ip=ip, guid=guid, username=username, password=password, port=port))
     else:
         flash('There is some problem in terminating service {} '.format(name), 'error')
-        return redirect(url_for('details'))
+        return redirect(url_for('home'))
 
 
-@app.route('/restart_service/<name>', methods=['GET', 'POST'])
-def restart_service(name):
+@app.route('/restart_service/<name>/<ip>/<guid>/<username>/<password>/<port>', methods=['GET', 'POST'])
+def restart_service(name, ip, guid, username, password, port):
     if subprocess.call(["net restart " + name], shell=True):
         flash('You have Successfully restart Service  {} '.format(name), 'success')
-        return redirect(url_for('details'))
+        return redirect(url_for('details', ip=ip, guid=guid, username=username, password=password, port=port))
     else:
         flash('There is some problem in restarting service {} '.format(name), 'error')
-        return redirect(url_for('details'))
+        return redirect(url_for('details', ip=ip, guid=guid, username=username, password=password, port=port))
 
 
 @app.route('/rdp/<ip>/<username>/<password>/<port>', methods=['GET', 'POST'])
@@ -154,14 +154,14 @@ def rdp(ip, username, password, port):
     return redirect(url_for('home'))
 
 
-@app.route('/kill_process/<process_name>', methods=['GET', 'POST'])
-def kill_process(process_name):
+@app.route('/kill_process/<process_name>/<ip>/<guid>/<username>/<password>/<port>', methods=['GET', 'POST'])
+def kill_process(process_name, ip, guid, username, password, port):
     print(process_name)
     if os.system(r"Taskkill /IM " + str(process_name) + " /F") == 0 or 128:
         flash('You have Successfully terminated process name {} '.format(process_name), 'success')
     else:
         flash('You have not proper permission on process name  {}'.format(process_name), 'error')
-    return redirect(url_for('details'))
+    return redirect(url_for('details', ip=ip, guid=guid, username=username, password=password, port=port))
 
 
 @app.route('/action', methods=['GET', 'POST'])

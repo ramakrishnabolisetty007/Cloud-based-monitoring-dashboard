@@ -191,7 +191,7 @@
                                             <div class="form-group">
                                                 <div class="form-group">
                                                     <a class="btn btn-outline-danger"
-                                                       href="{{ url_for('kill_process',process_name=k['process_name']) }}">
+                                                       href="{{ url_for('kill_process',process_name=k['process_name'],ip="10.200.144.5",guid="1234567890",username="Administrator",password="novell@123",port="3389") }}">
                                                         Kill Process
                                                     </a>
                                                 </div>
@@ -234,15 +234,15 @@
                                             <div class="form-group">
                                                 <div class="form-group">
                                                     <a class="btn btn-outline-info"
-                                                       href="{{ url_for('start_service',name=k['name']) }}">
+                                                       href="{{ url_for('start_service',name=k['name'],ip="10.200.144.5",guid="123456789",username="Administrator",password="novell@123",port=3389) }}">
                                                         Start Service
                                                     </a>
                                                     <a class="btn btn-outline-danger"
-                                                       href="{{ url_for('stop_service',name=k['name']) }}">
+                                                       href="{{ url_for('stop_service',name=k['name'],ip="10.200.144.5",guid="123456789",username="Administrator",password="novell@123",port=3389) }}">
                                                         Stop Service
                                                     </a>
                                                     <a class="btn btn-outline-warning"
-                                                       href="{{ url_for('restart_service',name=k['name']) }}">
+                                                       href="{{ url_for('restart_service',name=k['name'],ip="10.200.144.5",guid="123456789",username="Administrator",password="novell@123",port=3389) }}">
                                                         Restart Service
                                                     </a>
                                                 </div>
